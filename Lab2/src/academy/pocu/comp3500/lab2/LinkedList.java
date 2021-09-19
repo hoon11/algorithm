@@ -49,7 +49,7 @@ public final class LinkedList {
             previous = previous.getNextOrNull();
             i++;
         }
-        if (previous != null) {
+        if (previous != null && index >= 0) {
             newNode.setNext(previous.getNextOrNull());
             previous.setNext(newNode);
         }
