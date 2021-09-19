@@ -13,7 +13,7 @@ public final class LinkedList {
 
         Node lastNode = rootOrNull;
         while (lastNode.getNextOrNull() != null) {
-            lastNode = rootOrNull.getNextOrNull();
+            lastNode = lastNode.getNextOrNull();
         }
         lastNode.setNext(new Node(data));
 
@@ -84,7 +84,8 @@ public final class LinkedList {
             if (indexingNode.getData() == data) {
                 return i;
             }
-            indexingNode = rootOrNull.getNextOrNull();
+            indexingNode = indexingNode.getNextOrNull();
+            i++;
         }
 
         return -1;
