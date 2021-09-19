@@ -14,10 +14,11 @@ public final class Queue {
     public void enqueue(final int data) {
         Node newNode = new Node(data);
         if (size == 0) {
-            this.back = newNode;
-            this.front = newNode;
+            this.back = LinkedList.append(null, data);
+            this.front = this.back;
         } else {
             this.back.setNext(newNode);
+            this.back = newNode;
         }
         
         this.size = this.size + 1;
@@ -29,7 +30,7 @@ public final class Queue {
 
     public int dequeue() {
         Node temp = this.front;
-        this.front = this.front.getNextOrNull();
+        this.front = LinkedList.removeAt(this.front, 0);
         this.size = this.size - 1;
 
         return temp.getData();
