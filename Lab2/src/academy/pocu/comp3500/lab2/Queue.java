@@ -20,7 +20,7 @@ public final class Queue {
             this.back.setNext(newNode);
         }
         
-        this.size++;
+        this.size = this.size + 1;
     }
 
     public int peek() {
@@ -28,11 +28,11 @@ public final class Queue {
     }
 
     public int dequeue() {
-        int queueData = this.peek();
-        this.front = LinkedList.removeAt(this.front, 0);
-        this.size--;
+        Node temp = this.front;
+        this.front = this.front.getNextOrNull();
+        this.size = this.size - 1;
 
-        return queueData;
+        return temp.getData();
     }
 
     public int getSize() {
