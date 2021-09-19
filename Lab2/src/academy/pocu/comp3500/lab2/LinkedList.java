@@ -56,9 +56,9 @@ public final class LinkedList {
             i++;
         }
 
-        if (indexingNode != null) {
+        if (previous != null) {
             previous.setNext(newNode);
-            newNode.setNext((indexingNode));
+            newNode.setNext(indexingNode);
         }
 
         return rootOrNull;
