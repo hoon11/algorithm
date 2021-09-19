@@ -4,6 +4,7 @@ import academy.pocu.comp3500.lab2.datastructure.Node;
 
 public final class Queue {
     private Node front;
+    private Node back;
     private int size;
     
     public Queue() {
@@ -11,7 +12,15 @@ public final class Queue {
     }
 
     public void enqueue(final int data) {
-        this.front = LinkedList.prepend(this.front, data);
+        if (size == 0) {
+            this.front = LinkedList.prepend(this.front, data);
+            this.back = this.front;
+        } 
+
+        if (size > 0) {
+            this.back.setNext(new Node());
+        }
+
         this.size++;
     }
 
