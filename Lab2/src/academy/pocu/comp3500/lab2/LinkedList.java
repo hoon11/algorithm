@@ -52,6 +52,8 @@ public final class LinkedList {
         for (int i = 1; i < index; i++) {
             if (previous != null) {
                 previous = previous.getNextOrNull();
+            } else {
+                break;
             }
             if (indexingNode != null) {
                 indexingNode = indexingNode.getNextOrNull();
