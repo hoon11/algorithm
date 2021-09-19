@@ -45,7 +45,7 @@ public final class LinkedList {
 
         Node previous = rootOrNull;
         for (int i = 0; i < index - 1; i++) {
-            previous = rootOrNull.getNextOrNull();
+            previous = previous.getNextOrNull();
         }
         newNode.setNext(previous.getNextOrNull());
         previous.setNext(newNode);
