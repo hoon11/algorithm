@@ -170,6 +170,25 @@ public class Program {
             next = next.getNextOrNull();
 
             assert (next.getData() == 15);
+
+            root1 = LinkedList.append(null, 10);
+
+            root2 = LinkedList.append(null, 13);
+
+            root2 = LinkedList.append(root2, 14);
+
+            Node newRoot1 = LinkedList.interleaveOrNull(root1, root2); // newRoot: 10, list: 10 -> 13 -> 14
+
+            assert (newRoot1.getData() == 10);
+
+            next = newRoot1.getNextOrNull();
+
+            assert (next.getData() == 13);
+
+            next = next.getNextOrNull();
+
+            assert (next.getData() == 14);
+
         }
 
         {
