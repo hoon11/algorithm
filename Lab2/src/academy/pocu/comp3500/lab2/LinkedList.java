@@ -47,15 +47,18 @@ public final class LinkedList {
             return rootOrNull;
         }
 
-        Node previous = rootOrNull;
+        Node previous = null;
+        Node indexingNode = rootOrNull;
         int i = 0;
-        while (i < index - 1 && previous != null) {
-            previous = previous.getNextOrNull();
+        while (i < index && indexingNode != null) {
+            previous = indexingNode;
+            indexingNode = indexingNode.getNextOrNull();
             i++;
         }
-        if (previous != null && previous.getNextOrNull() != null) {
-            newNode.setNext(previous.getNextOrNull());
+
+        if (indexingNode != null) {
             previous.setNext(newNode);
+            newNode.setNext((indexingNode));
         }
 
         return rootOrNull;
