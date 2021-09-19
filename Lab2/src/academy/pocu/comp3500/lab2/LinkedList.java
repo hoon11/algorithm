@@ -32,11 +32,11 @@ public final class LinkedList {
     }
 
     public static Node insertAt(final Node rootOrNull, final int index, final int data) {
-        if (rootOrNull == null) {
-            return new Node(data);
-        }
-
         Node newNode = new Node(data);
+
+        if (rootOrNull == null) {
+            return newNode;
+        }
         
         if (index == 0) {
             newNode.setNext(rootOrNull);
@@ -45,8 +45,9 @@ public final class LinkedList {
 
         Node previous = rootOrNull;
         int i = 0;
-        while (i < index && previous != null) {
+        while (i < index - 1 && previous != null) {
             previous = previous.getNextOrNull();
+            i++;
         }
         if (previous != null) {
             newNode.setNext(previous.getNextOrNull());

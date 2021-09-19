@@ -57,6 +57,7 @@ public class Program {
             assert (root.getData() == 11);
 
             root = LinkedList.insertAt(root, 10, 13);
+            root = LinkedList.insertAt(root, 3, 13);
 
             Node next = root.getNextOrNull();
 
