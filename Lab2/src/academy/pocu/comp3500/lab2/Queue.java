@@ -12,13 +12,14 @@ public final class Queue {
     }
 
     public void enqueue(final int data) {
+        Node newNode = new Node(data);
         if (size == 0) {
-            this.front = LinkedList.prepend(null, data);
-            this.back = this.front;
-        } else if (size > 0) {
-            this.back.setNext(new Node(data));
+            this.back = newNode;
+            this.front = newNode;
+        } else {
+            this.back.setNext(newNode);
         }
-
+        
         this.size++;
     }
 
