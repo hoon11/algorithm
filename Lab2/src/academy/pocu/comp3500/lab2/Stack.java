@@ -3,7 +3,7 @@ package academy.pocu.comp3500.lab2;
 import academy.pocu.comp3500.lab2.datastructure.Node;
 
 public final class Stack {
-    private Node rootOrNull;
+    private Node top;
     private int size;
 
     public Stack() {
@@ -11,17 +11,17 @@ public final class Stack {
     }
 
     public void push(final int data) {
-        LinkedList.append(this.rootOrNull, data);
+        this.top = LinkedList.prepend(this.top, data);
         this.size++;
     }
 
     public int peek() {
-        return LinkedList.getOrNull(this.rootOrNull, this.size - 1).getData();
+        return LinkedList.getOrNull(this.top, 0).getData();
     }
 
     public int pop() {
         int popData = this.peek();
-        LinkedList.removeAt(this.rootOrNull, this.size - 1);
+        this.top = LinkedList.removeAt(this.top, 0);
         this.size--;
 
         return popData;
