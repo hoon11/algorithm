@@ -119,8 +119,8 @@ public final class LinkedList {
 
     public static Node reverse(final Node rootOrNull) {
 
-        Node previous   = null;
-        Node current    = rootOrNull;
+        Node previous = null;
+        Node current = rootOrNull;
         while (current != null) {
             Node temp = current.getNextOrNull();
             current.setNext(previous);
@@ -134,7 +134,7 @@ public final class LinkedList {
     public static Node interleaveOrNull(final Node root0OrNull, final Node root1OrNull) {
         
         Node current = root0OrNull;
-        Node next    = root1OrNull;
+        Node next = root1OrNull;
         while (current != null) {
             Node temp = current.getNextOrNull();
             current.setNext(next);
