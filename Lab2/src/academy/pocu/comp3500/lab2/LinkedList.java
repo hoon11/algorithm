@@ -47,6 +47,17 @@ public final class LinkedList {
             return rootOrNull;
         }
 
+        int count = 0;
+        Node countNode = rootOrNull;
+        while (countNode != null) {
+            countNode = countNode.getNextOrNull();
+            count++;
+        }
+
+        if (index > count) {
+            return rootOrNull;
+        }
+
         Node previous = rootOrNull;
         Node indexingNode = rootOrNull.getNextOrNull();
         for (int i = 1; i < index; i++) {

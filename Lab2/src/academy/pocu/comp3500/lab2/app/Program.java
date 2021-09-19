@@ -46,35 +46,35 @@ public class Program {
         }
 
         {
-            Node root = LinkedList.append(null, 10); // 10
+            Node root = LinkedList.append(null, 12); // 12
 
-            root = LinkedList.insertAt(root, 0, 11); // 11 -> 10
+            root = LinkedList.insertAt(root, 0, 10); // 10 -> 12
 
-            assert (root.getData() == 11);
+            root = LinkedList.insertAt(root, 1, 11); // 10 -> 11 -> 12
 
-            root = LinkedList.insertAt(root, 1, 12); // 11 -> 12 -> 10
+            root = LinkedList.insertAt(root, 3, 13); // 10 -> 11 -> 12 -> 13
 
-            root = LinkedList.insertAt(root, 10, 13); // 11 -> 12 -> 10
+            // invaild index
 
-            root = LinkedList.insertAt(root, 3, 3); // 11 -> 12 -> 10 -> 3
+            root = LinkedList.insertAt(root, 5, 14); // 10 -> 11 -> 12 -> 13
 
-            root = LinkedList.insertAt(root, 5, 4); // 11 -> 12 -> 10 -> 3
+            root = LinkedList.insertAt(root, -1, 103); // 10 -> 11 -> 12 -> 13
 
-            root = LinkedList.insertAt(root, -1, -1); // 11 -> 12 -> 10 -> 3
+            root = LinkedList.insertAt(root, 10, 103); // 10 -> 11 -> 12 -> 13
 
-            assert (root.getData() == 11);
+            assert (root.getData() == 10);
 
             Node next = root.getNextOrNull();
+
+            assert (next.getData() == 11);
+
+            next = next.getNextOrNull();
 
             assert (next.getData() == 12);
 
             next = next.getNextOrNull();
 
-            assert (next.getData() == 10);
-
-            next = next.getNextOrNull();
-
-            assert (next.getData() == 3);
+            assert (next.getData() == 13);
 
             next = next.getNextOrNull();
 
