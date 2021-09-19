@@ -15,9 +15,7 @@ public final class Queue {
         if (size == 0) {
             this.front = LinkedList.prepend(null, data);
             this.back = this.front;
-        } 
-
-        if (size > 0) {
+        } else if (size > 0) {
             this.back.setNext(new Node(data));
         }
 
