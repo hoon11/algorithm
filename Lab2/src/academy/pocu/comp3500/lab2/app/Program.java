@@ -130,6 +130,10 @@ public class Program {
 
             assert (node == null);
 
+            node = LinkedList.getOrNull(root, -1);
+
+            assert (node == null);
+
         }
 
         {
