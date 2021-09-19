@@ -36,24 +36,21 @@ public final class LinkedList {
             return new Node(data);
         }
 
-        Node previous = null;
-        Node indexingNode = rootOrNull;
-        int i = 0;
-        while (i < index && indexingNode.getNextOrNull() != null) {
-            previous = indexingNode;
-            indexingNode = indexingNode.getNextOrNull();
-            i++;
-        }
-
         Node newNode = new Node(data);
-        newNode.setNext(indexingNode);
-        Node newRoot = newNode;
-        if (previous != null) {
-            previous.setNext(newNode);
-            newRoot = rootOrNull;
+        
+        if (index == 0) {
+            newNode.setNext(rootOrNull);
+            return newNode;
         }
 
-        return newRoot;
+        Node previous = rootOrNull;
+        for (int i = 0; i < index - 1; i++) {
+            previous = rootOrNull.getNextOrNull();
+        }
+        newNode.setNext(previous.getNextOrNull());
+        previous.setNext(newNode);
+
+        return rootOrNull;
     }
 
     public static Node removeAt(final Node rootOrNull, final int index) {
@@ -66,59 +63,45 @@ public final class LinkedList {
         }
 
         Node previous = rootOrNull;
-        Node removeTarget = rootOrNull;
         int i = 0;
-        while (i < index && removeTarget.getNextOrNull() != null) {
-            previous = removeTarget;
-            removeTarget = removeTarget.getNextOrNull();
+        while (i < index - 1 && previous != null) {
+            previous = previous.getNextOrNull();
             i++;
         }
 
-        previous.setNext(removeTarget.getNextOrNull());
+        Node removeTarget = previous.getNextOrNull();
+        if (removeTarget != null) {
+            previous.setNext(removeTarget.getNextOrNull());
+        }
 
         return rootOrNull;
     }
 
     public static int getIndexOf(final Node rootOrNull, final int data) {
-        if (rootOrNull == null) {
-            return -1;
-        }
-
-        if (rootOrNull.getData() == data) {
-            return 0;
-        }
-
-        Node compareTarget = rootOrNull;
-        int i = 1;
-        while (compareTarget.getNextOrNull() != null) {
-            compareTarget = compareTarget.getNextOrNull();
-            if (compareTarget.getData() == data) {
+        Node indexingNode = rootOrNull;
+        int i = 0;
+        while (indexingNode != null) {
+            if (indexingNode.getData() == data) {
                 return i;
             }
-            i++;
+            indexingNode = rootOrNull.getNextOrNull();
         }
 
         return -1;
     }
 
     public static Node getOrNull(final Node rootOrNull, final int index) {
-
-        Node compareTarget = rootOrNull;
+        Node indexingNode = rootOrNull;
         int i = 0;
-        while (i < index && compareTarget != null) {
-            compareTarget = compareTarget.getNextOrNull();
+        while (i < index && indexingNode != null) {
+            indexingNode = indexingNode.getNextOrNull();
             i++;
         }
 
-        if (i < index) {
-            return null;
-        }
-
-        return compareTarget;
+        return indexingNode;
     }
 
     public static Node reverse(final Node rootOrNull) {
-
         Node previous = null;
         Node current = rootOrNull;
         while (current != null) {
@@ -132,7 +115,6 @@ public final class LinkedList {
     }
 
     public static Node interleaveOrNull(final Node root0OrNull, final Node root1OrNull) {
-        
         Node current = root0OrNull;
         Node next = root1OrNull;
         while (current != null) {
