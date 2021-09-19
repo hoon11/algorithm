@@ -127,15 +127,34 @@ public final class LinkedList {
     }
 
     public static Node interleaveOrNull(final Node root0OrNull, final Node root1OrNull) {
-        Node current = root0OrNull;
-        Node next = root1OrNull;
-        while (current != null) {
-            Node temp = current.getNextOrNull();
-            current.setNext(next);
-            current = next;
-            next = temp;
+        Node indexing0 = root0OrNull;
+        Node indexing1 = root1OrNull;
+        Node newRoot = null;
+        if (indexing0 != null) {
+            newRoot = indexing0;
+            indexing0 = indexing0.getNextOrNull();
+        } else if (indexing1 != null) {
+            newRoot = indexing1;
+            indexing1 = indexing1.getNextOrNull();
         }
 
-        return root0OrNull;
+        Node indexingNode = newRoot;
+        while (indexingNode != null) {
+            if (indexing1 != null) {
+                indexingNode.setNext(indexing1);
+                indexingNode = indexingNode.getNextOrNull();
+                indexing1 = indexing1.getNextOrNull();
+            }
+            if (indexing0 != null) {
+                indexingNode.setNext(indexing0);
+                indexingNode = indexingNode.getNextOrNull();
+                indexing0 = indexing0.getNextOrNull();
+            }
+            if (indexing0 == null && indexing1 == null) {
+                indexingNode = indexingNode.getNextOrNull();
+            }
+        }
+
+        return newRoot;
     }
 }
