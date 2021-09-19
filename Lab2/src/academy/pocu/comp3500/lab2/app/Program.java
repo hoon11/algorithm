@@ -46,23 +46,23 @@ public class Program {
         }
 
         {
-            Node root = LinkedList.append(null, 10);
+            Node root = LinkedList.append(null, 10); // 10
 
-            root = LinkedList.insertAt(root, 0, 11);
-
-            assert (root.getData() == 11);
-
-            root = LinkedList.insertAt(root, 1, 12);
+            root = LinkedList.insertAt(root, 0, 11); // 11 -> 10
 
             assert (root.getData() == 11);
 
-            root = LinkedList.insertAt(root, 10, 13);
+            root = LinkedList.insertAt(root, 1, 12); // 11 -> 12 -> 10
 
-            root = LinkedList.insertAt(root, 4, 4);
+            assert (root.getData() == 11);
 
-            root = LinkedList.insertAt(root, 3, 3);
+            root = LinkedList.insertAt(root, 10, 13); // 11 -> 12 -> 10
 
-            root = LinkedList.insertAt(root, -1, -1);
+            root = LinkedList.insertAt(root, 4, 4); // 11 -> 12 -> 10
+
+            root = LinkedList.insertAt(root, 3, 3); // 11 -> 12 -> 10 -> 3
+
+            root = LinkedList.insertAt(root, -1, -1); // 11 -> 12 -> 10 -> 3
 
             Node next = root.getNextOrNull();
 
@@ -71,6 +71,10 @@ public class Program {
             next = next.getNextOrNull();
 
             assert (next.getData() == 10);
+
+            next = next.getNextOrNull();
+
+            assert (next == null);
         }
 
         {

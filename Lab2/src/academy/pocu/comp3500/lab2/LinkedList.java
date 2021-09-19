@@ -53,7 +53,7 @@ public final class LinkedList {
             previous = previous.getNextOrNull();
             i++;
         }
-        if (previous != null) {
+        if (previous != null && previous.getNextOrNull() != null) {
             newNode.setNext(previous.getNextOrNull());
             previous.setNext(newNode);
         }
