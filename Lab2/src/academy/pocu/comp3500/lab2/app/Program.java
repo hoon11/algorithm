@@ -58,9 +58,9 @@ public class Program {
 
             root = LinkedList.insertAt(root, 10, 13); // 11 -> 12 -> 10
 
-            root = LinkedList.insertAt(root, 4, 4); // 11 -> 12 -> 10
-
             root = LinkedList.insertAt(root, 3, 3); // 11 -> 12 -> 10 -> 3
+
+            root = LinkedList.insertAt(root, 5, 4); // 11 -> 12 -> 10 -> 3
 
             root = LinkedList.insertAt(root, -1, -1); // 11 -> 12 -> 10 -> 3
 
@@ -75,6 +75,10 @@ public class Program {
             next = next.getNextOrNull();
 
             assert (next.getData() == 3);
+
+            next = next.getNextOrNull();
+
+            assert (next == null);
         }
 
         {
