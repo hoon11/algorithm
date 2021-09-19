@@ -34,10 +34,6 @@ public final class LinkedList {
     public static Node insertAt(final Node rootOrNull, final int index, final int data) {
         Node newNode = new Node(data);
 
-        if (rootOrNull == null) {
-            return newNode;
-        }
-        
         if (index == 0) {
             newNode.setNext(rootOrNull);
             return newNode;
@@ -56,6 +52,10 @@ public final class LinkedList {
 
         if (index > count) {
             return rootOrNull;
+        }
+
+        if (rootOrNull == null) {
+            return newNode;
         }
 
         Node previous = rootOrNull;

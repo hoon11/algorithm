@@ -46,7 +46,11 @@ public class Program {
         }
 
         {
-            Node root = LinkedList.append(null, 12); // 12
+            Node root = LinkedList.insertAt(null, 1, 10); // null
+
+            assert (root == null);
+
+            root = LinkedList.append(null, 12); // 12
 
             root = LinkedList.insertAt(root, 0, 10); // 10 -> 12
 
