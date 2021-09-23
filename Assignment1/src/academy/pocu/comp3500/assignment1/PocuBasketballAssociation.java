@@ -13,12 +13,14 @@ public final class PocuBasketballAssociation {
         int outIndex = 0;
         int gameCount = 0;
         String name = "";
-        int sumPoints = 0, sumAssists = 0, sumPasses = 0, sumGoals = 0, sumAttempts = 0;
+        int sumPoints = 0;
+        int sumAssists = 0;
+        int sumPasses = 0;
+        int sumGoals = 0;
+        int sumAttempts = 0;
         for (int i = 0; i < gameStats.length; i++) {
             if (i > 1 && !gameStats[i].getPlayerName().equals(name)) {
-                ProcessGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, 
-                    sumPoints, sumAssists, sumPasses, sumGoals, sumAttempts);
-
+                ProcessGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, sumPoints, sumAssists, sumPasses, sumGoals, sumAttempts);
                 outIndex++;
                 gameCount = 0;
                 sumPoints = sumAssists = sumPasses = sumGoals = sumAttempts = 0;
@@ -37,8 +39,7 @@ public final class PocuBasketballAssociation {
                     outIndex++;
                     name = gameStats[i].getPlayerName();
                 }
-                ProcessGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, 
-                    sumPoints, sumAssists, sumPasses, sumGoals, sumAttempts);
+                ProcessGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, sumPoints, sumAssists, sumPasses, sumGoals, sumAttempts);
             }
         }
     }
@@ -56,8 +57,7 @@ public final class PocuBasketballAssociation {
             if (subtractResult < 0) {
                 currentDistance *= -1;
             }
-            if ((currentDistance < minDistance) ||
-                (currentDistance == minDistance && players[findIndex].getPointsPerGame() < players[i].getPointsPerGame())
+            if ((currentDistance < minDistance) || (currentDistance == minDistance && players[findIndex].getPointsPerGame() < players[i].getPointsPerGame())
             ) {
                 findIndex = i;
                 minDistance = currentDistance;
@@ -80,8 +80,7 @@ public final class PocuBasketballAssociation {
             if (subtractResult < 0) {
                 currentDistance *= -1;
             }
-            if ((currentDistance < minDistance) ||
-                (currentDistance == minDistance && players[findIndex].getShootingPercentage() < players[i].getShootingPercentage())
+            if ((currentDistance < minDistance) || (currentDistance == minDistance && players[findIndex].getShootingPercentage() < players[i].getShootingPercentage())
             ) {
                 findIndex = i;
                 minDistance = currentDistance;
