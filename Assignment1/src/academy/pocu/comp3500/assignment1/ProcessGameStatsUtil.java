@@ -1,9 +1,9 @@
-package academy.pocu.comp3500.assignment1.utils;
+package academy.pocu.comp3500.assignment1;
 
 import academy.pocu.comp3500.assignment1.pba.GameStat;
 import academy.pocu.comp3500.assignment1.pba.Player;
 
-public final class processGameStatsUtil {
+public final class ProcessGameStatsUtil {
 
     public static void updateGameStat(Player player, int gameCount, String name, int sumPointsPerGame, int sumAssistsPerGame, 
             int sumPassesPerGame, int sumGoals, int sumGoalAttempts) {        

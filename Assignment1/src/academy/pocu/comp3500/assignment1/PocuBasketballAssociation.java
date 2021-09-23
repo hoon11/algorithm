@@ -2,15 +2,16 @@ package academy.pocu.comp3500.assignment1;
 
 import academy.pocu.comp3500.assignment1.pba.Player;
 import academy.pocu.comp3500.assignment1.pba.GameStat;
-
-import academy.pocu.comp3500.assignment1.utils.processGameStatsUtil;
+import academy.pocu.comp3500.assignment1.FindPlayerPointsPerGameUtil;
+import academy.pocu.comp3500.assignment1.FindPlayerShootingPercentageUtil;
+import academy.pocu.comp3500.assignment1.ProcessGameStatsUtil;
 
 public final class PocuBasketballAssociation {
     private PocuBasketballAssociation() {
     }
 
     public static void processGameStats(final GameStat[] gameStats, final Player[] outPlayers) {
-        processGameStatsUtil.quickSort(gameStats);
+        ProcessGameStatsUtil.quickSort(gameStats);
 
         int outIndex = 0;
         int gameCount = 0;
@@ -18,7 +19,7 @@ public final class PocuBasketballAssociation {
         int sumPoints = 0, sumAssists = 0, sumPasses = 0, sumGoals = 0, sumAttempts = 0;
         for (int i = 0; i < gameStats.length; i++) {
             if (i > 1 && !gameStats[i].getPlayerName().equals(name)) {
-                processGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, 
+                ProcessGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, 
                     sumPoints, sumAssists, sumPasses, sumGoals, sumAttempts);
 
                 outIndex++;
@@ -39,17 +40,57 @@ public final class PocuBasketballAssociation {
                     outIndex++;
                     name = gameStats[i].getPlayerName();
                 }
-                processGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, 
+                ProcessGameStatsUtil.updateGameStat(outPlayers[outIndex], gameCount, name, 
                     sumPoints, sumAssists, sumPasses, sumGoals, sumAttempts);
             }
         }
     }
 
     public static Player findPlayerPointsPerGame(final Player[] players, int targetPoints) {
-        return null;
+        FindPlayerPointsPerGameUtil.quickSort(players);
+
+        int findIndex = 0;
+        int minDistance = targetPoints;
+        int subtractResult = targetPoints;
+        int currentDistance = targetPoints;
+        for (int i = 0; i < players.length - 1; i++) {
+            subtractResult = players[i].getPointsPerGame() - targetPoints;
+            currentDistance = subtractResult;
+            if (subtractResult < 0) {
+                currentDistance *= -1;
+            }
+            if ((currentDistance < minDistance) ||
+                (currentDistance == minDistance && players[findIndex].getPointsPerGame() < players[i].getPointsPerGame())
+            ) {
+                findIndex = i;
+                minDistance = currentDistance;
+            }
+        }
+
+        return players[findIndex];
     }
 
     public static Player findPlayerShootingPercentage(final Player[] players, int targetShootingPercentage) {
+        FindPlayerShootingPercentageUtil.quickSort(players);
+
+        int findIndex = 0;
+        int minDistance = targetShootingPercentage;
+        int subtractResult = targetShootingPercentage;
+        int currentDistance = targetShootingPercentage;
+        for (int i = 0; i < players.length - 1; i++) {
+            subtractResult = players[i].getShootingPercentage() - targetShootingPercentage;
+            currentDistance = subtractResult;
+            if (subtractResult < 0) {
+                currentDistance *= -1;
+            }
+            if ((currentDistance < minDistance) ||
+                (currentDistance == minDistance && players[findIndex].getShootingPercentage() < players[i].getShootingPercentage())
+            ) {
+                findIndex = i;
+                minDistance = currentDistance;
+            }
+        }
+        
         return null;
     }
 
