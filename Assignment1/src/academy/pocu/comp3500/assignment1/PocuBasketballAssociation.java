@@ -45,8 +45,6 @@ public final class PocuBasketballAssociation {
     }
 
     public static Player findPlayerPointsPerGame(final Player[] players, int targetPoints) {
-        FindPlayerPointsPerGameUtil.quickSort(players);
-
         int findIndex = 0;
         int minDistance = targetPoints;
         int subtractResult = targetPoints;
@@ -68,8 +66,6 @@ public final class PocuBasketballAssociation {
     }
 
     public static Player findPlayerShootingPercentage(final Player[] players, int targetShootingPercentage) {
-        FindPlayerShootingPercentageUtil.quickSort(players);
-
         int findIndex = 0;
         int minDistance = targetShootingPercentage;
         int subtractResult = targetShootingPercentage;
