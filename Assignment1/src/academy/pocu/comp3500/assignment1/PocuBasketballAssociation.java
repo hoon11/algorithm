@@ -51,7 +51,7 @@ public final class PocuBasketballAssociation {
         int minDistance = targetPoints;
         int subtractResult = targetPoints;
         int currentDistance = targetPoints;
-        for (int i = 0; i < players.length - 1; i++) {
+        for (int i = 0; i < players.length; i++) {
             subtractResult = players[i].getPointsPerGame() - targetPoints;
             currentDistance = subtractResult;
             if (subtractResult < 0) {
@@ -74,7 +74,7 @@ public final class PocuBasketballAssociation {
         int minDistance = targetShootingPercentage;
         int subtractResult = targetShootingPercentage;
         int currentDistance = targetShootingPercentage;
-        for (int i = 0; i < players.length - 1; i++) {
+        for (int i = 0; i < players.length; i++) {
             subtractResult = players[i].getShootingPercentage() - targetShootingPercentage;
             currentDistance = subtractResult;
             if (subtractResult < 0) {
@@ -86,8 +86,8 @@ public final class PocuBasketballAssociation {
                 minDistance = currentDistance;
             }
         }
-        
-        return null;
+
+        return players[findIndex];
     }
 
     public static long find3ManDreamTeam(final Player[] players, final Player[] outPlayers, final Player[] scratch) {
