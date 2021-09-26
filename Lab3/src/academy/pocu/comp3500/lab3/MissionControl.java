@@ -10,18 +10,28 @@ public final class MissionControl {
         int left = 0;
         int right = altitudes.length - 1;
         int middle = (left + right) / 2;
-
+        int i = 0;
         while (left < right) {
-            if (middle + 1 < altitudes.length && altitudes[middle] < altitudes[middle + 1]) {
-                left = middle + 1;
-            } else if (middle - 1 >= 0 && altitudes[middle - 1] > altitudes[middle]) {
-                right = middle - 1;
+            if (middle + 1 < altitudes.length){
+                if (altitudes[middle] < altitudes[middle + 1]) {
+                    left = middle + 1;
+                } else if (altitudes[middle] > altitudes[middle + 1]) {
+                    right = middle;
+                }
+            }
+            if (middle - 1 >= 0) {
+                if (altitudes[middle - 1] > altitudes[middle]) {
+                    right = middle - 1;
+                } else if (altitudes[middle] < altitudes[middle + 1]) {
+                    left = middle + 1;
+                }
             }
 
             middle = (left + right) / 2;
-            if (left == right) {
-                middle = left;
-            }
+            i++;
+        }
+        if (left == right) {
+            middle = left;
         }
 
         return middle;

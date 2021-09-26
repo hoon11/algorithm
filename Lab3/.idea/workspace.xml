@@ -64,14 +64,24 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/lab3/MissionControl.java</url>
+          <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/lab3/app/Program.java</url>
           <line>9</line>
-          <option name="timeStamp" value="40" />
+          <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/lab3/app/Program.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/lab3/app/Program.java</url>
+          <line>20</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/lab3/MissionControl.java</url>
           <line>9</line>
-          <option name="timeStamp" value="41" />
+          <option name="timeStamp" value="49" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
