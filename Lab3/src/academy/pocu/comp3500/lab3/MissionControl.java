@@ -49,8 +49,7 @@ public final class MissionControl {
         return findAltitudes;
     }
 
-    private static void findAltitudeTimesReclusive(ArrayList<Integer> findAltitudes, final int[] altitudes,
-            final int targetAltitude, final int left, final int right) {
+    private static void findAltitudeTimesReclusive(ArrayList<Integer> findAltitudes, final int[] altitudes, final int targetAltitude, final int left, final int right) {
         if (left > right) {
             return;
         }
