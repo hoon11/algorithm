@@ -7,15 +7,21 @@ public final class MissionControl {
     }
 
     public static int findMaxAltitudeTime(final int[] altitudes) {
-        int i = 0;
-        int maxAltitudeIndex;
+        int left = 0;
+        int right = altitudes.length - 1;
+        int middle = (left + right) / 2;
 
-        while (i < altitudes.length && i + 1 < altitudes.length && altitudes[i] < altitudes[i + 1]) {
-            i++;
+        while (left < right) {
+            if (middle + 1 < altitudes.length && altitudes[middle] < altitudes[middle + 1]) {
+                left = middle + 1;
+            } else if (middle - 1 >=  0 && altitudes[middle - 1] > altitudes[middle]) {
+                right = middle - 1;
+            }
+
+            middle = (left + right) / 2;
         }
-        maxAltitudeIndex = i;
 
-        return maxAltitudeIndex;
+        return middle;
     }
 
     public static ArrayList<Integer> findAltitudeTimes(final int[] altitudes, final int targetAltitude) {
@@ -53,7 +59,7 @@ public final class MissionControl {
                 }
             }
         }
-        if (left == right && altitudes[left] == targetAltitude ) {
+        if (left == right && altitudes[left] == targetAltitude) {
             findAltitudes.add(left);
         } else {
             if (leftIndex != -1) {
