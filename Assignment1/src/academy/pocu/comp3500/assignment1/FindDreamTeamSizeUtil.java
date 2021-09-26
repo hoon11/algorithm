@@ -2,7 +2,7 @@ package academy.pocu.comp3500.assignment1;
 
 import academy.pocu.comp3500.assignment1.pba.Player;
 
-public final class FindPlayerShootingPercentageUtil {
+public final class FindDreamTeamSizeUtil {
 
     public static void quickSort(Player[] targets) {
         quickSortRecursive(targets, 0, targets.length - 1);

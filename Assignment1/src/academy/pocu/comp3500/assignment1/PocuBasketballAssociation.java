@@ -97,14 +97,15 @@ public final class PocuBasketballAssociation {
     public static int findDreamTeamSize(final Player[] players, final Player[] scratch) {
         FindDreamTeamSizeUtil.quickSort(players);
         int bestTeamWork = 0;
-        int minAssist = 0;
         int totalPass = 0;
         int i = players.length - 1;
+        int scratchIndex = 0;
         while (i >= 0) {
-            if (bestTeamWork < players[i].getAssists() * (totalPass + players[i].getPassesPerGame())) {
+            if (bestTeamWork < players[i].getAssistsPerGame()* (totalPass + players[i].getPassesPerGame())) {
                 totalPass += players[i].getPassesPerGame();
-                bestTeamWork = players[i].getAssists() * totalPass;
-                scratch.add(player[i]);
+                bestTeamWork = players[i].getAssistsPerGame() * totalPass;
+                scratch[scratchIndex] = players[i];
+                scratchIndex++;
             }
             i--;
         }
