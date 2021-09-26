@@ -14,11 +14,14 @@ public final class MissionControl {
         while (left < right) {
             if (middle + 1 < altitudes.length && altitudes[middle] < altitudes[middle + 1]) {
                 left = middle + 1;
-            } else if (middle - 1 >=  0 && altitudes[middle - 1] > altitudes[middle]) {
+            } else if (middle - 1 >= 0 && altitudes[middle - 1] > altitudes[middle]) {
                 right = middle - 1;
             }
 
             middle = (left + right) / 2;
+            if (left == right) {
+                middle = left;
+            }
         }
 
         return middle;
