@@ -101,7 +101,7 @@ public final class PocuBasketballAssociation {
         int i = players.length - 1;
         int scratchIndex = 0;
         while (i >= 0) {
-            if (bestTeamWork < players[i].getAssistsPerGame()* (totalPass + players[i].getPassesPerGame())) {
+            if (bestTeamWork < players[i].getAssistsPerGame() * (totalPass + players[i].getPassesPerGame())) {
                 totalPass += players[i].getPassesPerGame();
                 bestTeamWork = players[i].getAssistsPerGame() * totalPass;
                 scratch[scratchIndex] = players[i];

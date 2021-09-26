@@ -5,8 +5,7 @@ import academy.pocu.comp3500.assignment1.pba.Player;
 
 public final class ProcessGameStatsUtil {
 
-    public static void updateGameStat(Player player, int gameCount, String name, int sumPointsPerGame, int sumAssistsPerGame, 
-            int sumPassesPerGame, int sumGoals, int sumGoalAttempts) {        
+    public static void updateGameStat(Player player, int gameCount, String name, int sumPointsPerGame, int sumAssistsPerGame, int sumPassesPerGame, int sumGoals, int sumGoalAttempts) {        
         player.setName(name);
         player.setPointsPerGame(sumPointsPerGame / gameCount);
         player.setAssistsPerGame(sumAssistsPerGame / gameCount);
