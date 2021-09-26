@@ -38,49 +38,42 @@ public final class MissionControl {
     public static ArrayList<Integer> findAltitudeTimes(final int[] altitudes, final int targetAltitude) {
         int left = 0;
         int right = altitudes.length - 1;
-        boolean hasLeftSearched = false;
-        boolean hasRightSearched = false;
-        int leftIndex = -1;
-        int rightIndex = -1;
         ArrayList<Integer> findAltitudes = new ArrayList<>();
-
-        while (left < right && !(hasLeftSearched && hasRightSearched)) {
-            if (altitudes[left] == targetAltitude) {
-                leftIndex = left;
-            }
-            if (altitudes[right] == targetAltitude) {
-                rightIndex = right;
-            }
-            if (left + 1 < altitudes.length) {
-                if (altitudes[left] < altitudes[left + 1] && targetAltitude < altitudes[left + 1]) {
-                    hasLeftSearched = true;
-                } else if (altitudes[left] > altitudes[left + 1] && targetAltitude > altitudes[left + 1]) {
-                    hasLeftSearched = true;
-                } else {
-                    left++;
-                }
-            }
-            if (right - 1 > 0) {
-                if (altitudes[right - 1] < altitudes[right] && targetAltitude > altitudes[right - 1]) {
-                    hasRightSearched = true;
-                } else if (altitudes[right - 1] > altitudes[right] && targetAltitude < altitudes[right - 1]) {
-                    hasRightSearched = true;
-                } else {
-                    right--;
-                }
+        for (int i = 0; i < altitudes.length; i++) {
+            if (altitudes[i] == targetAltitude) {
+                findAltitudes.add(i);
             }
         }
-        if (left == right && altitudes[left] == targetAltitude) {
-            findAltitudes.add(left);
-        } else {
-            if (leftIndex != -1) {
-                findAltitudes.add(leftIndex);
-            }
-            if (rightIndex != -1) {
-                findAltitudes.add(rightIndex);
-            }
-        }
+        //findAltitudeTimesReclusive(findAltitudes, altitudes, targetAltitude, 0, right);
 
         return findAltitudes;
+    }
+
+    private static void findAltitudeTimesReclusive(ArrayList<Integer> findAltitudes, final int[] altitudes,
+            final int targetAltitude, final int left, final int right) {
+        if (left > right) {
+            return;
+        }
+
+        int middle = (left + right) / 2;
+
+        if (altitudes[middle] == targetAltitude) {
+            findAltitudes.add(middle);
+            return;
+        }
+
+        if (altitudes[left] <= altitudes[middle]) {
+            if (altitudes[left] <= targetAltitude && targetAltitude <= altitudes[middle]) {
+                findAltitudeTimesReclusive(findAltitudes, altitudes, targetAltitude, left, middle - 1);
+            }
+            findAltitudeTimesReclusive(findAltitudes, altitudes, targetAltitude, middle + 1, right);
+            return;
+        }
+
+        if (altitudes[middle] <= targetAltitude && targetAltitude <= altitudes[right]) {
+            findAltitudeTimesReclusive(findAltitudes, altitudes, targetAltitude, middle + 1, right);
+        }
+        findAltitudeTimesReclusive(findAltitudes, altitudes, targetAltitude, left, middle - 1);
+        return;
     }
 }
