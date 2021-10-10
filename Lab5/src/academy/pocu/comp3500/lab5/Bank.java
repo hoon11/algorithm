@@ -1,6 +1,7 @@
 package academy.pocu.comp3500.lab5;
 
 import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -93,7 +94,7 @@ public class Bank {
     }
 
     private static byte[] longToBytes(long data) {
-        return new byte[]{(byte)((data >> 56) & 0xff), (byte)((data >> 48) & 0xff), (byte)((data >> 40) & 0xff), (byte)((data >> 32) & 0xff), (byte)((data >> 24) & 0xff), (byte)((data >> 16) & 0xff), (byte)((data >> 8) & 0xff), (byte)((data >> 0) & 0xff)};
+        return ByteBuffer.allocate(8).putLong(data).array();
     }
 
     private byte[] getSHA256HashOrNull(byte[] values) {
