@@ -1,5 +1,6 @@
 package academy.pocu.comp3500.lab5;
 
+import java.math.BigInteger;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -37,6 +38,10 @@ public class Bank {
 
     public boolean transfer(final byte[] from, byte[] to, final long amount, final byte[] signature) {
         PublicKey publicKey = null;
+        if (amount <= 0) {
+            return false;
+        }
+
         try {
             publicKey = KeyFactory.getInstance("RSA").generatePublic(new X509EncodedKeySpec(from));
 
@@ -48,6 +53,15 @@ public class Bank {
 
             if (isEqual(descriptedSignature, fromToAmountHash)) {
                 if (this.accounts.get(from).longValue() < amount) {
+                    return false;
+                }
+
+                if (this.accounts.get(to) == null) {
+                    return false;
+                }
+
+                // to.balance + amount > Long.MaxValue ?
+                if (BigInteger.valueOf(this.accounts.get(to)).add(BigInteger.valueOf(amount)).compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0) {
                     return false;
                 }
                 this.accounts.replace(from, this.accounts.get(from).longValue() - amount);
@@ -79,7 +93,9 @@ public class Bank {
     }
 
     private static byte[] longToBytes(long data) {
-        return new byte[] { (byte) ((data >> 56) & 0xff), (byte) ((data >> 48) & 0xff), (byte) ((data >> 40) & 0xff), (byte) ((data >> 32) & 0xff), (byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff), (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff) };
+        return new byte[] { (byte) ((data >> 56) & 0xff), (byte) ((data >> 48) & 0xff), (byte) ((data >> 40) & 0xff),
+                (byte) ((data >> 32) & 0xff), (byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff),
+                (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff) };
     }
 
     private byte[] getSHA256HashOrNull(byte[] values) {
