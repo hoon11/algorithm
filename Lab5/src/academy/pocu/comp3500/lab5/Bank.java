@@ -18,13 +18,14 @@ public class Bank {
     private Cipher cipher;
 
     public Bank(byte[][] pubKeys, final long[] amounts) {
+        this.accounts = new HashMap<byte[], Long>();
 
         for (int i = 0; i < pubKeys.length; i++) {
             this.accounts.put(pubKeys[i], amounts[i]);
         }
         try {
             this.cipher = Cipher.getInstance("RSA");
-        } catch (NoSuchAlgorithmException e | NoSuchPaddingException e) {
+        } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }
     }
@@ -54,7 +55,7 @@ public class Bank {
                     return false;
                 }
                 this.accounts.replace(from, this.accounts.get(from).longValue() - amount);
-                this.accounts.replace(to, this.accounts.get(from).longValue() + amount);
+                this.accounts.replace(to, this.accounts.get(to).longValue() + amount);
 
                 return true;
             }
