@@ -93,7 +93,7 @@ public class Bank {
     }
 
     private static byte[] longToBytes(long data) {
-        return new byte[] {
+        return new byte[]{
             (byte) ((data >> 56) & 0xff),
             (byte) ((data >> 48) & 0xff),
             (byte) ((data >> 40) & 0xff),
