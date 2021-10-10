@@ -57,7 +57,7 @@ public class Bank {
                 }
 
                 if (this.accounts.get(to) == null) {
-                    return false;
+                    this.accounts.put(to, Long.valueOf(0));
                 }
 
                 // to.balance + amount > Long.MaxValue ?
@@ -93,7 +93,16 @@ public class Bank {
     }
 
     private static byte[] longToBytes(long data) {
-        return new byte[] { (byte) ((data >> 56) & 0xff), (byte) ((data >> 48) & 0xff), (byte) ((data >> 40) & 0xff), (byte) ((data >> 32) & 0xff), (byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff), (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff) };
+        return new byte[] {
+            (byte) ((data >> 56) & 0xff),
+            (byte) ((data >> 48) & 0xff),
+            (byte) ((data >> 40) & 0xff),
+            (byte) ((data >> 32) & 0xff),
+            (byte) ((data >> 24) & 0xff),
+            (byte) ((data >> 16) & 0xff),
+            (byte) ((data >> 8) & 0xff),
+            (byte) ((data >> 0) & 0xff)
+        };
     }
 
     private byte[] getSHA256HashOrNull(byte[] values) {
