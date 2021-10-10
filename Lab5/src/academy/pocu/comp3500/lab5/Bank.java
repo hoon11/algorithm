@@ -1,17 +1,13 @@
 package academy.pocu.comp3500.lab5;
 
-import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.crypto.Cipher;
-import javax.crypto.NoSuchPaddingException;
 
 public class Bank {
     private HashMap<byte[], Long> accounts;
@@ -50,7 +46,7 @@ public class Bank {
             byte[] fromToAmount = getFromToAmount(from, to, amount);
             byte[] fromToAmountHash = getSHA256HashOrNull(fromToAmount);
 
-            if (Arrays.equals(descriptedSignature, fromToAmountHash)) {
+            if (isEqual(descriptedSignature, fromToAmountHash)) {
                 if (this.accounts.get(from).longValue() < amount) {
                     return false;
                 }
@@ -83,9 +79,7 @@ public class Bank {
     }
 
     private static byte[] longToBytes(long data) {
-        return new byte[] { (byte) ((data >> 56) & 0xff), (byte) ((data >> 48) & 0xff), (byte) ((data >> 40) & 0xff),
-                (byte) ((data >> 32) & 0xff), (byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff),
-                (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff), };
+        return new byte[] { (byte) ((data >> 56) & 0xff), (byte) ((data >> 48) & 0xff), (byte) ((data >> 40) & 0xff), (byte) ((data >> 32) & 0xff), (byte) ((data >> 24) & 0xff), (byte) ((data >> 16) & 0xff), (byte) ((data >> 8) & 0xff), (byte) ((data >> 0) & 0xff) };
     }
 
     private byte[] getSHA256HashOrNull(byte[] values) {
@@ -100,5 +94,20 @@ public class Bank {
         }
 
         return null;
+    }
+
+    private boolean isEqual(byte[] a, byte[] b) {
+        boolean ret = true;
+        if (a.length == b.length) {
+            for (int i = 0; i < a.length; i++) {
+                if (a[i] != b[i]) {
+                    ret = false;
+                    break;
+                }
+            }
+        } else {
+            ret = false;
+        }
+        return ret;
     }
 }
