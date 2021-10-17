@@ -4,7 +4,6 @@ import academy.pocu.comp3500.lab6.leagueofpocu.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 public class League {
     private BinarySearchTree binarySearchTree;
@@ -17,25 +16,11 @@ public class League {
         if (!isSorted) {
             Sort.quickSort(players);
         }
-        List<Node> nodes = new ArrayList<Node>();
-        Player previous = players.length > 0 ? players[0] : null;
-        if (previous != null) {
-            nodes.add(new Node(previous));
+        List<Player> list = new ArrayList<Player>();
+        for (Player p:players) {
+            list.add(p);
         }
-        Player current;
-        int i = 1;
-        while (i < players.length) {
-            current = players[i];
-            if (current.getId() != previous.getId() && current.getRating() == previous.getRating()) {
-                nodes.get(nodes.size() - 1).getPlayers().put(current.getId(), current);
-            } else {
-                nodes.add(new Node(current));
-            }
-            previous = current;
-            i++;
-        }
-
-        Node root = this.sortedArrayToBinarySearchTree(nodes);
+        Node root = this.sortedArrayToBinarySearchTree(list);
         this.binarySearchTree = new BinarySearchTree(root);
     }
 
@@ -45,31 +30,35 @@ public class League {
         }
 
         Node playerNode = this.binarySearchTree.searchById(player.getId());
-        if (playerNode != null) {
-            for (Entry<Integer, Player> entrySet : playerNode.getPlayers().entrySet()) {
-                if (entrySet.getKey() != player.getId()) {
-                    return entrySet.getValue();
-                }
-            }
-        }
+        Player parentPlayer = playerNode.getParent() != null ? playerNode.getParent().getPlayer() : null;
+        Player leftPlayer = playerNode.getLeftChild() != null ? playerNode.getLeftChild().getPlayer() : null;
+        Player rightPlayer = playerNode.getRightChild() != null ? playerNode.getRightChild().getPlayer() : null;
 
-        Node parent = playerNode.getParentOrNull();
-        Node left = playerNode.getLeftChildOrNull();
-        Node right = playerNode.getRightChildOrNull();
+        // 등급이 같은 선수
+        if (parentPlayer != null && parentPlayer.getRating() == playerNode.getPlayer().getRating()) {
+            return parentPlayer;
+        }
+        if (rightPlayer != null && rightPlayer.getRating() == playerNode.getPlayer().getRating()) {
+            return rightPlayer;
+        }
 
         // 가장 등급이 가까운 선수
-        ArrayList<Node> candidates = new ArrayList<Node>();
-        if (parent != null) {
-            candidates.add(parent);
+        ArrayList<Player> candidates = new ArrayList<Player>();
+        if (parentPlayer != null) {
+            candidates.add(parentPlayer);
         }
-        if (left != null) {
-            candidates.add(left);
+        if (leftPlayer != null) {
+            candidates.add(leftPlayer);
         }
-        if (right != null) {
-            candidates.add(right);
+        if (rightPlayer != null) {
+            candidates.add(rightPlayer);
         }
 
-        if (candidates.size() != 0) {
+        if (candidates.size() == 0) {
+            return null;
+        } else if (candidates.size() == 1) {
+            return candidates.get(0);
+        } else {
             int index = 0;
             int minDiff = Math.abs(candidates.get(0).getRating() - player.getRating());
             for (int i = 1; i < candidates.size(); i++) {
@@ -83,14 +72,8 @@ public class League {
                 }
             }
 
-            for (Entry<Integer, Player> entrySet : candidates.get(index).getPlayers().entrySet()) {
-                if (entrySet.getKey() != player.getId()) {
-                    return entrySet.getValue();
-                }
-            }
+            return candidates.get(index);
         }
-
-        return null;
     }
 
     public Player[] getTop(final int count) {
@@ -98,25 +81,14 @@ public class League {
             return new Player[0];
         }
 
-        List<Node> list = this.binarySearchTree.toArrayByRataingDesc();
+        List<Player> list = this.binarySearchTree.toArrayByRataingDesc();
 
-        ArrayList<Player> players = new ArrayList<Player>();
-        int i = 0;
-        Node temp = list.get(0);
-        while (temp != null && i < count) {
-            for (Entry<Integer, Player> entrySet : temp.getPlayers().entrySet()) {
-                if (i < count) {
-                    players.add(entrySet.getValue());
-                    i++;
-                } else {
-                    break;
-                }
-            }
-            temp = list.get(i);
-        }
-        Player[] p = new Player[players.size()];
+        int from = 0;
+        int to = Math.min(count, list.size());
 
-        return players.toArray(p);
+        list = list.subList(from, to);
+        Player[] tops = new Player[list.size()];
+        return list.toArray(tops);
     }
 
     public Player[] getBottom(final int count) {
@@ -124,25 +96,14 @@ public class League {
             return new Player[0];
         }
 
-        List<Node> list = this.binarySearchTree.toArrayByRataingAsc();
+        List<Player> list = this.binarySearchTree.toArrayByRataingAsc();
 
-        ArrayList<Player> players = new ArrayList<Player>();
-        int i = 0;
-        Node temp = list.get(0);
-        while (temp != null && i < count) {
-            for (Entry<Integer, Player> entrySet : temp.getPlayers().entrySet()) {
-                if (i < count) {
-                    players.add(entrySet.getValue());
-                    i++;
-                } else {
-                    break;
-                }
-            }
-            temp = list.get(i);
-        }
-        Player[] p = new Player[players.size()];
+        int from = 0;
+        int to = Math.min(count, list.size());
 
-        return players.toArray(p);
+        list = list.subList(from, to);
+        Player[] bottoms = new Player[list.size()];
+        return list.toArray(bottoms);
     }
 
     public boolean join(final Player player) {
@@ -174,29 +135,28 @@ public class League {
         return true;
     }
 
-    private Node sortedArrayToBinarySearchTree(List<Node> nodes) {
-        if (nodes == null || nodes.size() == 0) {
+    private Node sortedArrayToBinarySearchTree(List<Player> players) {
+        if (players == null || players.size() == 0) {
             return null;
         }
 
-        int midIndex = nodes.size() / 2;
-        Node newNode = nodes.get(midIndex);
+        int midIndex = players.size() / 2;
+        Node newNode = new Node(players.get(midIndex));
 
-        List<Node> leftList = nodes.subList(0, midIndex);
+        List<Player> leftList = players.subList(0, midIndex);
         Node leftNode = sortedArrayToBinarySearchTree(leftList);
         if (leftNode != null) {
             newNode.setLeftChild(leftNode);
             leftNode.setParent(newNode);
         }
 
-        List<Node> rightList = nodes.subList(midIndex + 1, nodes.size());
+        List<Player> rightList = players.subList(midIndex + 1, players.size());
         Node rightNode = sortedArrayToBinarySearchTree(rightList);
         if (rightNode != null) {
             newNode.setRightChild(rightNode);
             rightNode.setParent(newNode);
         }
-
+        
         return newNode;
     }
-
 }
