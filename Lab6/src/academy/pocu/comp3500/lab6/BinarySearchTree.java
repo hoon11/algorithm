@@ -1,8 +1,5 @@
 package academy.pocu.comp3500.lab6;
 
-import academy.pocu.comp3500.lab6.Node;
-import academy.pocu.comp3500.lab6.leagueofpocu.Player;
-
 import java.util.ArrayList;
 
 public final class BinarySearchTree {
@@ -17,17 +14,17 @@ public final class BinarySearchTree {
     }
 
     private Node insertReclusive(Node parent, Node newNode) {
-        if (parent.getPlayer().getRating() > newNode.getPlayer().getRating()) {
-            if (parent.getLeftChild() != null) {
-                return insertReclusive(parent.getLeftChild(), newNode);
+        if (newNode.getRating() < parent.getRating()) {
+            if (parent.getLeftChildOrNull() != null) {
+                return insertReclusive(parent.getLeftChildOrNull(), newNode);
             } else {
                 parent.setLeftChild(newNode);
                 newNode.setParent(parent);
                 return newNode;
             }
         }
-        if (parent.getRightChild() != null) {
-            return insertReclusive(parent.getRightChild(), newNode);
+        if (parent.getRightChildOrNull() != null) {
+            return insertReclusive(parent.getRightChildOrNull(), newNode);
         } else {
             parent.setRightChild(newNode);
             newNode.setParent(parent);
@@ -44,20 +41,20 @@ public final class BinarySearchTree {
             return null;
         }
 
-        if (node.getPlayer().getRating() == rating) {
+        if (node.getRating() == rating) {
             return node;
         }
 
-        if (rating < node.getPlayer().getRating()) {
-            return searchByRatingReclusive(node.getLeftChild(), rating);
+        if (rating < node.getRating()) {
+            return searchByRatingReclusive(node.getLeftChildOrNull(), rating);
         }
 
-        return searchByRatingReclusive(node.getRightChild(), rating);
+        return searchByRatingReclusive(node.getRightChildOrNull(), rating);
     }
 
     public Node searchById(int id) {
         ArrayList<Node> list = new ArrayList<Node>();
-        searchByIdReclusive(list,this.root, id);
+        searchByIdReclusive(list, this.root, id);
 
         return list.size() == 1 ? list.get(0) : null;
     }
@@ -66,37 +63,36 @@ public final class BinarySearchTree {
         if (node == null) {
             return;
         }
-        int targetId = node.getPlayer().getId();
-        if (targetId == id) {
+
+        if (node.getPlayerOrNull(id) != null) {
             list.add(node);
-            return;
         }
 
-        searchByIdReclusive(list, node.getLeftChild(), id);
-        searchByIdReclusive(list, node.getRightChild(), id);
+        searchByIdReclusive(list, node.getLeftChildOrNull(), id);
+        searchByIdReclusive(list, node.getRightChildOrNull(), id);
     }
 
     public Node delete(Node node) {
 
-        Node candidate = findNextParentFromLeftReclusive(node.getLeftChild());
+        Node candidate = findNextParentFromLeftReclusive(node.getLeftChildOrNull());
         if (candidate != null) {
-            Node parent = node.getParent();
+            Node parent = node.getParentOrNull();
             candidate.setParent(parent);
-            if (parent.getLeftChild() != null && parent.getLeftChild().getPlayer().getId() == node.getPlayer().getId()) {
+            if (parent.getLeftChildOrNull() != null && parent.getLeftChildOrNull().getRating() == node.getRating()) {
                 parent.setLeftChild(candidate);
-            } else if (parent.getRightChild() != null && parent.getRightChild().getPlayer().getId() == node.getPlayer().getId()) {
+            } else if (parent.getRightChildOrNull() != null && parent.getRightChildOrNull().getRating() == node.getRating()) {
                 parent.setRightChild(candidate);
             }
         }
 
         if (candidate == null) {
-            candidate = findNextParentFromRightReclusive(node.getRightChild());
+            candidate = findNextParentFromRightReclusive(node.getRightChildOrNull());
             if (candidate != null) {
-                Node parent = node.getParent();
+                Node parent = node.getParentOrNull();
                 candidate.setParent(parent);
-                if (parent.getLeftChild() != null && parent.getLeftChild().getPlayer().getId() == node.getPlayer().getId()) {
+                if (parent.getLeftChildOrNull() != null && parent.getLeftChildOrNull().getRating() == node.getRating()) {
                     parent.setLeftChild(candidate);
-                } else if (parent.getRightChild() != null && parent.getRightChild().getPlayer().getId() == node.getPlayer().getId()) {
+                } else if (parent.getRightChildOrNull() != null && parent.getRightChildOrNull().getRating() == node.getRating()) {
                     parent.setRightChild(candidate);
                 }
             }
@@ -114,15 +110,15 @@ public final class BinarySearchTree {
             return null;
         }
 
-        if (node.getLeftChild() == null && node.getRightChild() == null) {
+        if (node.getLeftChildOrNull() == null && node.getRightChildOrNull() == null) {
             return node;
         }
 
-        if (node.getRightChild() != null) {
-            return findNextParentFromLeftReclusive(node.getRightChild());
+        if (node.getRightChildOrNull() != null) {
+            return findNextParentFromLeftReclusive(node.getRightChildOrNull());
         }
 
-        return findNextParentFromLeftReclusive(node.getLeftChild());
+        return findNextParentFromLeftReclusive(node.getLeftChildOrNull());
     }
 
     private Node findNextParentFromRightReclusive(Node node) {
@@ -130,48 +126,48 @@ public final class BinarySearchTree {
             return null;
         }
 
-        if (node.getLeftChild() == null && node.getRightChild() == null) {
+        if (node.getLeftChildOrNull() == null && node.getRightChildOrNull() == null) {
             return node;
         }
 
-        if (node.getLeftChild() != null) {
-            return findNextParentFromRightReclusive(node.getLeftChild());
+        if (node.getLeftChildOrNull() != null) {
+            return findNextParentFromRightReclusive(node.getLeftChildOrNull());
         }
 
-        return findNextParentFromRightReclusive(node.getRightChild());
+        return findNextParentFromRightReclusive(node.getRightChildOrNull());
     }
 
-    public ArrayList<Player> toArrayByRataingAsc() {
-        ArrayList<Player> list = new ArrayList<Player>();
+    public ArrayList<Node> toArrayByRataingAsc() {
+        ArrayList<Node> list = new ArrayList<Node>();
         toArrayByRataingAscReclusive(list, this.root);
 
         return list;
     }
 
-    private void toArrayByRataingAscReclusive(ArrayList<Player> list, Node node) {
+    private void toArrayByRataingAscReclusive(ArrayList<Node> list, Node node) {
         if (node == null) {
             return;
         }
 
-        toArrayByRataingAscReclusive(list, node.getLeftChild());
-        list.add(node.getPlayer());
-        toArrayByRataingAscReclusive(list, node.getRightChild());
+        toArrayByRataingAscReclusive(list, node.getLeftChildOrNull());
+        list.add(node);
+        toArrayByRataingAscReclusive(list, node.getRightChildOrNull());
     }
 
-    public ArrayList<Player> toArrayByRataingDesc() {
-        ArrayList<Player> list = new ArrayList<Player>();
+    public ArrayList<Node> toArrayByRataingDesc() {
+        ArrayList<Node> list = new ArrayList<Node>();
         toArrayByRataingDescReclusive(list, this.root);
 
         return list;
     }
 
-    private void toArrayByRataingDescReclusive(ArrayList<Player> list, Node node) {
+    private void toArrayByRataingDescReclusive(ArrayList<Node> list, Node node) {
         if (node == null) {
             return;
         }
 
-        toArrayByRataingDescReclusive(list, node.getRightChild());
-        list.add(node.getPlayer());
-        toArrayByRataingDescReclusive(list, node.getLeftChild());
+        toArrayByRataingDescReclusive(list, node.getRightChildOrNull());
+        list.add(node);
+        toArrayByRataingDescReclusive(list, node.getLeftChildOrNull());
     }
 }

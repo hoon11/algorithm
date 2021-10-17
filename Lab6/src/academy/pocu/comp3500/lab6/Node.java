@@ -1,15 +1,20 @@
 package academy.pocu.comp3500.lab6;
 
+import java.util.HashMap;
+
 import academy.pocu.comp3500.lab6.leagueofpocu.Player;
 
 public final class Node {
-    private Player player;
+    private HashMap<Integer, Player> playerMap;
+    private int rating;
     private Node parent;
     private Node leftChild;
     private Node rightChild;
 
     public Node(Player player) {
-        this.player = player;
+        this.playerMap = new HashMap<Integer, Player>();
+        this.playerMap.put(player.getId(), player);
+        this.rating = player.getRating();
         this.parent = null;
         this.leftChild = null;
         this.rightChild = null;
@@ -27,23 +32,27 @@ public final class Node {
         this.rightChild = rightChild;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Player getPlayerOrNull(int id) {
+        return this.playerMap.get(id);
     }
 
-    public Node getParent() {
+    public int getRating() {
+        return rating;
+    }
+
+    public Node getParentOrNull() {
         return parent;
     }
 
-    public Node getLeftChild() {
+    public Node getLeftChildOrNull() {
         return leftChild;
     }
 
-    public Node getRightChild() {
+    public Node getRightChildOrNull() {
         return rightChild;
     }
 
-    public boolean equalTo(Player player) {
-        return this.player.getId() == player.getId() ? true : false;
+    public HashMap<Integer, Player> getPlayers() {
+        return this.playerMap;
     }
 }
