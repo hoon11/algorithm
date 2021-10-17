@@ -15,7 +15,7 @@ public final class Indent {
     public void discard() {
         this.logs = new ArrayList<String>();
         Indent child = this.child;
-        while(child != null) {
+        while (child != null) {
             child.discard();
             child = child.getChild();
         }
