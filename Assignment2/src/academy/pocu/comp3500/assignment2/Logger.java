@@ -74,13 +74,19 @@ public final class Logger {
 
     public static Indent indent() {
         currentIndentLv++;
-        indentedLogs.add(new Indent(currentIndentLv));
+        Indent last = indentedLogs.get(indentedLogs.getSize() - 1);
+        Indent newIndent = new Indent(currentIndentLv);
+        last.setChild(newIndent);
+        indentedLogs.add(newIndent);
 
-        return indentedLogs.get(indentedLogs.getSize() - 1);
+        return newIndent;
     }
 
     public static void unindent() {
         currentIndentLv--;
-        indentedLogs.add(new Indent(currentIndentLv));
+        Indent last = indentedLogs.get(indentedLogs.getSize() - 1);
+        Indent newIndent = new Indent(currentIndentLv);
+        last.setChild(newIndent);
+        indentedLogs.add(newIndent);
     }
 }

@@ -78,6 +78,35 @@ public class Program {
             writer1.close();
             writer2.close();
         }
+
+        Logger.clear();
+
+        {
+            final BufferedWriter writer3 = new BufferedWriter(new FileWriter("E03_DiscardParentIndent.log"));
+
+            log("level0");
+            Indent indent1 = Logger.indent();
+            {
+                log("level1");
+                Indent indent2 = Logger.indent();
+                {
+                    log("level2");
+                    Indent indent3 = Logger.indent();
+                    {
+                        log("level3");
+                    }
+                    Logger.unindent();
+                    log("level4");
+                    indent2.discard();
+                    log("level5");
+                }
+            }
+            Logger.unindent();
+
+            Logger.printTo(writer3);
+
+            writer3.close();
+        }
     }
 
     private static void doMagic() {

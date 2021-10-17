@@ -1,11 +1,11 @@
 package academy.pocu.comp3500.assignment2;
 
 import academy.pocu.comp3500.assignment2.datastructure.ArrayList;
-import academy.pocu.comp3500.assignment2.datastructure.Queue;
 
 public final class Indent {
     private ArrayList<String> logs;
     private int indentLv;
+    private Indent child;
     final private String INDENT_CHAR = "  ";
 
     public Indent(int indentLv) {
@@ -14,6 +14,11 @@ public final class Indent {
     }
     public void discard() {
         this.logs = new ArrayList<String>();
+        Indent child = this.child;
+        while(child != null) {
+            child.discard();
+            child = child.getChild();
+        }
     }
 
     public ArrayList<String> getLogs() {
@@ -43,5 +48,13 @@ public final class Indent {
 
     public boolean hasLog() {
         return this.logs.getSize() > 0;
+    }
+
+    public Indent getChild() {
+        return child;
+    }
+
+    public void setChild(Indent child) {
+        this.child = child;
     }
 }

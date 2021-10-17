@@ -73,19 +73,21 @@
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/assignment2/Logger.java</url>
-          <line>53</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/assignment2/Logger.java</url>
-          <line>44</line>
-          <properties class="academy.pocu.comp3500.assignment2.Logger" method="printTo">
-            <option name="EMULATED" value="true" />
-          </properties>
-          <option name="timeStamp" value="9" />
+          <url>file://$PROJECT_DIR$/src/academy/pocu/comp3500/assignment2/app/Program.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="academy.pocu.comp3500.assignment2.Indent" memberName="logs" />
+      </pinned-members>
+    </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="last" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
