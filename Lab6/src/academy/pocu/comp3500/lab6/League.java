@@ -17,7 +17,7 @@ public class League {
             Sort.quickSort(players);
         }
         List<Player> list = new ArrayList<Player>();
-        for (Player p:players) {
+        for (Player p : players) {
             list.add(p);
         }
         Node root = this.sortedArrayToBinarySearchTree(list);

@@ -57,7 +57,7 @@ public final class BinarySearchTree {
 
     public Node searchById(int id) {
         ArrayList<Node> list = new ArrayList<Node>();
-        searchByIdReclusive(list,this.root, id);
+        searchByIdReclusive(list, this.root, id);
 
         return list.size() == 1 ? list.get(0) : null;
     }
