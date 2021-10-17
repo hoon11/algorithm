@@ -56,23 +56,24 @@ public final class BinarySearchTree {
     }
 
     public Node searchById(int id) {
-        return searchByIdReclusive(this.root, id);
+        ArrayList<Node> list = new ArrayList<Node>();
+        searchByIdReclusive(list,this.root, id);
+
+        return list.size() == 1 ? list.get(0) : null;
     }
 
-    private Node searchByIdReclusive(Node node, int id) {
+    private void searchByIdReclusive(ArrayList<Node> list, Node node, int id) {
         if (node == null) {
-            return null;
+            return;
+        }
+        int targetId = node.getPlayer().getId();
+        if (targetId == id) {
+            list.add(node);
+            return;
         }
 
-        if (node.getPlayer().getId() == id) {
-            return node;
-        }
-
-        if (node.getLeftChild() != null) {
-            return searchByIdReclusive(node.getLeftChild(), id);
-        }
-
-        return searchByIdReclusive(node.getRightChild(), id);
+        searchByIdReclusive(list, node.getLeftChild(), id);
+        searchByIdReclusive(list, node.getRightChild(), id);
     }
 
     public Node delete(Node node) {

@@ -16,7 +16,11 @@ public class League {
         if (!isSorted) {
             Sort.quickSort(players);
         }
-        Node root = this.sortedArrayToBinarySearchTree(players, 0, players.length - 1);
+        List<Player> list = new ArrayList<Player>();
+        for (Player p:players) {
+            list.add(p);
+        }
+        Node root = this.sortedArrayToBinarySearchTree(list);
         this.binarySearchTree = new BinarySearchTree(root);
     }
 
@@ -131,18 +135,28 @@ public class League {
         return true;
     }
 
-    private Node sortedArrayToBinarySearchTree(Player[] players, int start, int end) {
-        if (players == null || (start >= end)) {
+    private Node sortedArrayToBinarySearchTree(List<Player> players) {
+        if (players == null || players.size() == 0) {
             return null;
         }
 
-        int midIndex = players.length / 2;
-        Node newNode = new Node(players[midIndex]);
-        Node leftNode = sortedArrayToBinarySearchTree(players, 0, midIndex);
-        newNode.setLeftChild(leftNode);
-        Node rightNode = sortedArrayToBinarySearchTree(players, midIndex + 1, end);
-        newNode.setRightChild(rightNode);
+        int midIndex = players.size() / 2;
+        Node newNode = new Node(players.get(midIndex));
 
+        List<Player> leftList = players.subList(0, midIndex);
+        Node leftNode = sortedArrayToBinarySearchTree(leftList);
+        if (leftNode != null) {
+            newNode.setLeftChild(leftNode);
+            leftNode.setParent(newNode);
+        }
+
+        List<Player> rightList = players.subList(midIndex + 1, players.size());
+        Node rightNode = sortedArrayToBinarySearchTree(rightList);
+        if (rightNode != null) {
+            newNode.setRightChild(rightNode);
+            rightNode.setParent(newNode);
+        }
+        
         return newNode;
     }
 }
