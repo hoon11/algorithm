@@ -1,35 +1,36 @@
 package academy.pocu.comp3500.assignment2;
 
+import academy.pocu.comp3500.assignment2.datastructure.ArrayList;
 import academy.pocu.comp3500.assignment2.datastructure.Queue;
 
 public final class Indent {
-    private Queue<String> logs;
+    private ArrayList<String> logs;
     private int indentLv;
     final private String INDENT_CHAR = "  ";
 
     public Indent(int indentLv) {
-        this.logs = new Queue<String>();
+        this.logs = new ArrayList<String>();
         this.indentLv = indentLv;
     }
     public void discard() {
-        this.logs = new Queue<String>();
+        this.logs = new ArrayList<String>();
     }
 
-    public Queue<String> getLogsQueue() {
+    public ArrayList<String> getLogs() {
         return this.logs;
     }
 
-    public Queue<String> getLogsQueueIfHas(String target) {
-        Queue<String> filteredQueue = new Queue<String>();
+    public ArrayList<String> getLogsIfHas(String target) {
+        ArrayList<String> filteredLogs = new ArrayList<String>();
         String log;
         for (int i = 0; i < this.logs.getSize(); i++) {
-            log = this.logs.dequeue();
-            if (log.equals(target)) {
-                filteredQueue.enqueue(log);
+            log = this.logs.get(i);
+            if (log.contains(target)) {
+                filteredLogs.add(log);
             }
         }
 
-        return logs;
+        return filteredLogs;
     }
 
     public void insertLog(String log) {
@@ -37,7 +38,7 @@ public final class Indent {
         for (int i = 0; i < this.indentLv; i++) {
             indent = indent.concat(this.INDENT_CHAR);
         }
-        this.logs.enqueue(indent.concat(log));
+        this.logs.add(indent.concat(log));
     }
 
     public boolean hasLog() {

@@ -1,11 +1,11 @@
 package academy.pocu.comp3500.assignment2;
 
-import academy.pocu.comp3500.assignment2.datastructure.Queue;
+import academy.pocu.comp3500.assignment2.datastructure.ArrayList;
 
 import java.io.BufferedWriter;
 
 public final class Logger {
-    static private Queue<Indent> indentedLogs;
+    static private ArrayList<Indent> indentedLogs;
     static private int currentIndentLv;
 
     static {
@@ -13,25 +13,30 @@ public final class Logger {
     }
 
     public static void log(final String text) {
-        indentedLogs.peek().insertLog(text);
+        Indent indentedLog = indentedLogs.get(indentedLogs.getSize() - 1);
+        indentedLog.insertLog(text);
     }
 
     public static void printTo(final BufferedWriter writer) {
         Indent indent;
-        Queue<String> logs;
+        ArrayList<String> logs;
         String log;
         try {
             writer.flush();
-            while(indentedLogs.getSize() > 0) {
-                indent = indentedLogs.dequeue();
-                logs = indent.getLogsQueue();
-                while (logs.getSize() > 0) {
-                    log = logs.dequeue();
+            int i = 0;
+            while (i < indentedLogs.getSize()) {
+                indent = indentedLogs.get(i);
+                logs = indent.getLogs();
+                int j = 0;
+                while (j < logs.getSize()) {
+                    log = logs.get(j);
                     writer.write(log);
                     writer.newLine();
+                    j++;
                 }
+                i++;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getStackTrace();
         }
 
@@ -39,38 +44,43 @@ public final class Logger {
 
     public static void printTo(final BufferedWriter writer, final String filter) {
         Indent indent;
-        Queue<String> logs;
+        ArrayList<String> logs;
         String log;
         try {
             writer.flush();
-            while(indentedLogs.getSize() > 0) {
-                indent = indentedLogs.dequeue();
-                logs = indent.getLogsQueueIfHas(filter);
-                while (logs.getSize() > 0) {
-                    log = logs.dequeue();
+            int i = 0;
+            while (i < indentedLogs.getSize()) {
+                indent = indentedLogs.get(i);
+                logs = indent.getLogsIfHas(filter);
+                int j = 0;
+                while (j < logs.getSize()) {
+                    log = logs.get(j);
                     writer.write(log);
                     writer.newLine();
+                    j++;
                 }
+                i++;
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getStackTrace();
         }
     }
 
     public static void clear() {
-        indentedLogs = new Queue<>();
+        indentedLogs = new ArrayList<Indent>();
         currentIndentLv = 0;
-        indentedLogs.enqueue(new Indent(currentIndentLv));
+        indentedLogs.add(new Indent(currentIndentLv));
     }
 
     public static Indent indent() {
         currentIndentLv++;
-        indentedLogs.enqueue(new Indent(currentIndentLv));
-        return indentedLogs.peek();
+        indentedLogs.add(new Indent(currentIndentLv));
+
+        return indentedLogs.get(indentedLogs.getSize() - 1);
     }
 
     public static void unindent() {
         currentIndentLv--;
-        indentedLogs.enqueue(new Indent(currentIndentLv));
+        indentedLogs.add(new Indent(currentIndentLv));
     }
 }
