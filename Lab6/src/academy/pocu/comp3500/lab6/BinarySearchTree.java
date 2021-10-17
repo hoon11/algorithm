@@ -1,4 +1,7 @@
-package academy.pocu.comp3500.lab6.leagueofpocu;
+package academy.pocu.comp3500.lab6;
+
+import academy.pocu.comp3500.lab6.Node;
+import academy.pocu.comp3500.lab6.leagueofpocu.Player;
 
 import java.util.ArrayList;
 
