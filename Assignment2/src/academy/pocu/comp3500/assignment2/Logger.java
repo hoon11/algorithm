@@ -87,7 +87,7 @@ public final class Logger {
     }
 
     public static void unindent() {
-        if ( currentIndentLv > 0) {
+        if (currentIndentLv > 0) {
             currentIndentLv--;
         }
         Indent last = indentedLogs.get(indentedLogs.getSize() - 1);
