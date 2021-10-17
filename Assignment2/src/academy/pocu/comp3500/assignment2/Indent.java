@@ -11,12 +11,13 @@ public final class Indent {
     public Indent(int indentLv) {
         this.logs = new ArrayList<String>();
         this.indentLv = indentLv;
+        this.child = null;
     }
     public void discard() {
-        this.logs = new ArrayList<String>();
+        this.logs.clear();
         Indent child = this.child;
         while (child != null) {
-            child.discard();
+            child.logs.clear();
             child = child.getChild();
         }
     }

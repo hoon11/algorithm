@@ -67,7 +67,11 @@ public final class Logger {
     }
 
     public static void clear() {
-        indentedLogs = new ArrayList<Indent>();
+        if (indentedLogs == null) {
+            indentedLogs = new ArrayList<>();
+        } else {
+            indentedLogs.clear();
+        }
         currentIndentLv = 0;
         indentedLogs.add(new Indent(currentIndentLv));
     }
@@ -83,7 +87,9 @@ public final class Logger {
     }
 
     public static void unindent() {
-        currentIndentLv--;
+        if ( currentIndentLv > 0) {
+            currentIndentLv--;
+        }
         Indent last = indentedLogs.get(indentedLogs.getSize() - 1);
         Indent newIndent = new Indent(currentIndentLv);
         last.setChild(newIndent);
