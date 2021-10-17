@@ -13,11 +13,11 @@ public class League {
     }
 
     public League(Player[] players, boolean isSorted) {
-        this.binarySearchTree = null;
-
-        for (Player player : players) {
-            this.join(player);
+        if (!isSorted) {
+            Sort.quickSort(players);
         }
+        Node root = this.sortedArrayToBinarySearchTree(players, 0, players.length - 1);
+        this.binarySearchTree = new BinarySearchTree(root);
     }
 
     public Player findMatchOrNull(final Player player) {
@@ -129,5 +129,20 @@ public class League {
         }
         this.binarySearchTree.delete(deleteTarget);
         return true;
+    }
+
+    private Node sortedArrayToBinarySearchTree(Player[] players, int start, int end) {
+        if (players == null || (start >= end)) {
+            return null;
+        }
+
+        int midIndex = players.length / 2;
+        Node newNode = new Node(players[midIndex]);
+        Node leftNode = sortedArrayToBinarySearchTree(players, 0, midIndex);
+        newNode.setLeftChild(leftNode);
+        Node rightNode = sortedArrayToBinarySearchTree(players, midIndex + 1, end);
+        newNode.setRightChild(rightNode);
+
+        return newNode;
     }
 }
