@@ -19,7 +19,7 @@ public final class BinarySearchTree {
                 return insertReclusive(parent.getLeftChild(), newNode);
             } else {
                 parent.setLeftChild(newNode);
-                parent.setParent(newNode);
+                newNode.setParent(parent);
                 return newNode;
             }
         }
@@ -27,7 +27,7 @@ public final class BinarySearchTree {
             return insertReclusive(parent.getRightChild(), newNode);
         } else {
             parent.setRightChild(newNode);
-            parent.setParent(newNode);
+            newNode.setParent(parent);
             return newNode;
         }
     }
@@ -66,22 +66,39 @@ public final class BinarySearchTree {
         }
 
         if (node.getLeftChild() != null) {
-            return searchByRatingReclusive(node.getLeftChild(), id);
+            return searchByIdReclusive(node.getLeftChild(), id);
         }
 
-        return searchByRatingReclusive(node.getRightChild(), id);
+        return searchByIdReclusive(node.getRightChild(), id);
     }
 
     public Node delete(Node node) {
 
         Node candidate = findNextParentFromLeftReclusive(node.getLeftChild());
-        if (candidate == null) {
-            candidate = findNextParentFromRightReclusive(node.getRightChild());
+        if (candidate != null) {
+            Node parent = node.getParent();
+            candidate.setParent(parent);
+            if (parent.getLeftChild() != null && parent.getLeftChild().getPlayer().getId() == node.getPlayer().getId()) {
+                parent.setLeftChild(candidate);
+            } else if (parent.getRightChild() != null && parent.getRightChild().getPlayer().getId() == node.getPlayer().getId()) {
+                parent.setRightChild(candidate);
+            }
         }
 
-        if (candidate != null) {
-            candidate.setParent(node.getParent());
-        } else {
+        if (candidate == null) {
+            candidate = findNextParentFromRightReclusive(node.getRightChild());
+            if (candidate != null) {
+                Node parent = node.getParent();
+                candidate.setParent(parent);
+                if (parent.getLeftChild() != null && parent.getLeftChild().getPlayer().getId() == node.getPlayer().getId()) {
+                    parent.setLeftChild(candidate);
+                } else if (parent.getRightChild() != null && parent.getRightChild().getPlayer().getId() == node.getPlayer().getId()) {
+                    parent.setRightChild(candidate);
+                }
+            }
+        }
+
+        if (candidate == null) {
             this.root = null;
         }
 

@@ -7,9 +7,9 @@ public final class Node {
     private Node rightChild;
 
     public Node(Player player) {
-        this.player     = player;
-        this.parent     = null;
-        this.leftChild  = null;
+        this.player = player;
+        this.parent = null;
+        this.leftChild = null;
         this.rightChild = null;
     }
 

@@ -1,6 +1,11 @@
-package academy.pocu.comp3500.lab6.leagueofpocu;
+package academy.pocu.comp3500.lab6;
+
+import academy.pocu.comp3500.lab6.leagueofpocu.BinarySearchTree;
+import academy.pocu.comp3500.lab6.leagueofpocu.Node;
+import academy.pocu.comp3500.lab6.leagueofpocu.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class League {
     private BinarySearchTree binarySearchTree;
@@ -11,6 +16,10 @@ public class League {
 
     public League(Player[] players, boolean isSorted) {
         this.binarySearchTree = null;
+
+        for (Player player : players) {
+            this.join(player);
+        }
     }
 
     public Player findMatchOrNull(final Player player) {
@@ -48,34 +57,51 @@ public class League {
         } else if (candidates.size() == 1) {
             return candidates.get(0);
         } else {
-            return candidates.get(candidates.size() - 1);
+            int index = 0;
+            int minDiff = Math.abs(candidates.get(0).getRating() - player.getRating());
+            for (int i = 1; i < candidates.size(); i++) {
+                int candiateDiff = Math.abs(candidates.get(i).getRating() - player.getRating());
+                if (candiateDiff < minDiff) {
+                    index = i;
+                    minDiff = candiateDiff;
+                } else if (candiateDiff == minDiff && candidates.get(i).getRating() > player.getRating()) {
+                    index = i;
+                    minDiff = candiateDiff;
+                }
+            }
+
+            return candidates.get(index);
         }
     }
 
     public Player[] getTop(final int count) {
         if (this.binarySearchTree == null) {
-            return null;
+            return new Player[0];
         }
 
-        ArrayList<Player> list = this.binarySearchTree.toArrayByRataingAsc();
+        List<Player> list = this.binarySearchTree.toArrayByRataingDesc();
 
         int from = 0;
-        int to = count > list.size() ? list.size() - 1 : count - 1;
+        int to = Math.min(count, list.size());
 
-        return (Player[]) list.subList(from, to).toArray();
+        list = list.subList(from, to);
+        Player[] tops = new Player[list.size()];
+        return list.toArray(tops);
     }
 
     public Player[] getBottom(final int count) {
         if (this.binarySearchTree == null) {
-            return null;
+            return new Player[0];
         }
 
-        ArrayList<Player> list = this.binarySearchTree.toArrayByRataingDesc();
+        List<Player> list = this.binarySearchTree.toArrayByRataingAsc();
 
         int from = 0;
-        int to = count > list.size() ? list.size() - 1 : count - 1;
+        int to = Math.min(count, list.size());
 
-        return (Player[]) list.subList(from, to).toArray();
+        list = list.subList(from, to);
+        Player[] bottoms = new Player[list.size()];
+        return list.toArray(bottoms);
     }
 
     public boolean join(final Player player) {
